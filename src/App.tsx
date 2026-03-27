@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-const BASE = 'http://localhost:8787'
+const BASE = import.meta.env.VITE_API_URL
 
 // --- Types ---
 
