@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+# Async & Await — Tutorial
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A teaching resource for learning `async/await`, error handling, and real-world fetch behaviour in the browser.
 
-Currently, two official plugins are available:
+Students build a frontend that fetches player and leaderboard data from a live API, handling loading states, HTTP errors, and timeouts along the way.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Structure
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+/               React demo app (reference UI built with shadcn/ui)
+/server         Hono API deployed to Cloudflare Pages
+/public         Minimal plain HTML reference implementation
+TODO.md         Student assignment sheet with API docs and grading rubric
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API Endpoints
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Endpoint | Description |
+|---|---|
+| `GET /player/:id` | Player profile — may return 404 or 500 |
+| `GET /player/:id/matches` | Match history — may return 500 or hang |
+| `GET /leaderboard` | Global leaderboard — may hang |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+All endpoints have a random 0–3s delay and a ~40% chance of returning an error or hanging for 5 seconds, making them good practice for real-world async patterns.
+
+A `?success=100` query param forces a successful response, and `?success=0` forces an error — useful for testing.
+
+## Student Assignment
+
+See [TODO.md](./TODO.md) for the full assignment, API documentation, and grading rubric.
+
+## API Server
+
+Built with [Hono](https://hono.dev) and deployed on Cloudflare Pages. To run locally:
+
+```bash
+cd server
+bun install
+bun run dev
+```
+
+## Demo App
+
+A reference implementation built with React, Vite, and shadcn/ui.
+
+```bash
+bun install
+bun run dev
 ```
