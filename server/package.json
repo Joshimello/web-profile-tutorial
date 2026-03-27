@@ -3,13 +3,15 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify",
+    "build": "esbuild src/index.ts --bundle --outfile=dist/_worker.js --format=esm --platform=neutral --minify",
+    "deploy": "bun run build && wrangler pages deploy dist",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
     "hono": "^4.12.9"
   },
   "devDependencies": {
+    "esbuild": "^0.27.4",
     "wrangler": "^4.4.0"
   }
 }
